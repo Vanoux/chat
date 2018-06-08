@@ -3,19 +3,34 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Chat en temps réel ! d'OpenClassRoom</title>
+    <title>Bienvenue à toi !</title>
     <style>
-        #zone_chat strong {
-            color: white;
-            background-color: black;
-            padding: 2px;
+        body{
+            background-color: #F97F51;
+        }
+        h1 {
+            color: #4D3A36; 
+        }
+        #chat {
+            border: 2px groove;
+            border-radius: 10px;
+            border-color: #FD7272;
+            margin-right: 600px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 20px;
         }
 
+        #zone_chat strong {
+            color: black;
+            background-color: #B33771;
+            padding: 2px;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Le super Chat en temps réel !</h1>
+    <div id="chat"><h1>Bienvenue sur le Chat de la tchatche!</h1></div>
 
     <form action="/" method="post" id="formulaire_chat">
 
@@ -25,9 +40,7 @@
 
     </form>
 
-    <section id="zone_chat">
-
-    </section>
+    <section id="zone_chat"></section>
 
 
     <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -37,12 +50,13 @@
     <script>
         // Connexion à socket.io
         var socket =
-            io.connect('http://192.168.1.101:8080');
+            io('http://192.168.1.101:8080');
 
         // On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
         var pseudo = prompt('Quel est votre pseudo ?');
-        socket.emit('nouveau_client', pseudo);//signal d'envoi au serveur
+        socket.emit('nouveau_client', pseudo); //signal d'envoi au serveur
         document.title = pseudo + ' - ' + document.title; //bonus = affiche le pseudo dans le title de la page du navigateur
+        
 
         // Quand on reçoit un message, on l'insère dans la page
         socket.on('message', function(data) {
@@ -57,11 +71,11 @@
         // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
         $('#formulaire_chat').submit(function() {
 
-            var message = $('#message').val();
+            var message = $('#message').val();// Stock ma valeur de l'input dans une variable
             socket.emit('message', message); // Transmet le message aux autres
             insereMessage(pseudo, message); // Affiche le message aussi sur notre page
             $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
-            return false; // Permet de bloquer l'envoi "classique" du formulaire  
+            return false; // Permet de bloquer l'envoi "classique" du formulaire (charger une nouvelle page)
         });
 
         // Ajoute un message dans la page

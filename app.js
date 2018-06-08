@@ -25,7 +25,8 @@ io.sockets.on('connection', function (socket, pseudo) {
         message = ent.encode(message); //encode le message par sécurité, pour retirer le JavaScript malicieux !
         socket.broadcast.emit('message', {
             pseudo: socket.pseudo,
-            message: message}); //Pour envoyer plusieurs données dans un seul paramètre, on les encapsule dans un objet JavaScript
+            message: message
+        }); //Pour envoyer plusieurs données dans un seul paramètre, on les encapsule dans un objet JavaScript
     });
 
 });
