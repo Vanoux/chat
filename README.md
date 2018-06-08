@@ -1,2 +1,2 @@
 # chat
-NPM install pour Téléchargez les dépendances "ent" "express" et "socket.io"
+NPM install pour télécharger les dépendances "ent" "express" et "socket.io"
