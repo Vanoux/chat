@@ -5,12 +5,14 @@
     <meta charset="utf-8" />
     <title>Bienvenue à toi !</title>
     <style>
-        body{
+        body {
             background-color: #F97F51;
         }
+
         h1 {
-            color: #4D3A36; 
+            color: #4D3A36;
         }
+
         #chat {
             border: 2px groove;
             border-radius: 10px;
@@ -25,24 +27,27 @@
             color: black;
             background-color: #B33771;
             padding: 2px;
+            overflow-y: auto;
         }
+
     </style>
 </head>
 
 <body>
-    <div id="chat"><h1>Bienvenue sur le Chat de la tchatche!</h1></div>
+    <div id="chat">
+        <h1>Bienvenue sur le Chat de la tchatche!</h1>
+    </div>
 
-    <form action="/" method="post" id="formulaire_chat">
+   <form action="/" method="post" id="formulaire_chat">
 
-        <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus />
+    <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus />
 
         <input type="submit" id="envoi_message" value="Envoyer" />
-
     </form>
-
+   
     <section id="zone_chat"></section>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -56,7 +61,7 @@
         var pseudo = prompt('Quel est votre pseudo ?');
         socket.emit('nouveau_client', pseudo); //signal d'envoi au serveur
         document.title = pseudo + ' - ' + document.title; //bonus = affiche le pseudo dans le title de la page du navigateur
-        
+
 
         // Quand on reçoit un message, on l'insère dans la page
         socket.on('message', function(data) {
@@ -65,13 +70,13 @@
 
         // Quand un nouveau client se connecte, on affiche l'information
         socket.on('nouveau_client', function(pseudo) {
-            $('#zone_chat').prepend('<p><em>' + pseudo + ' a rejoint le Chat !</em></p>');
+            $('#zone_chat').prepend('<p><em>' + pseudo + ' a rejoint le Chat !</em>' + " à " + moment().format('HH:mm:ss') + '</p>');
         })
 
         // Lorsqu'on envoie le formulaire, on transmet le message et on l'affiche sur la page
         $('#formulaire_chat').submit(function() {
 
-            var message = $('#message').val();// Stock ma valeur de l'input dans une variable
+            var message = $('#message').val(); // Stock ma valeur de l'input dans une variable
             socket.emit('message', message); // Transmet le message aux autres
             insereMessage(pseudo, message); // Affiche le message aussi sur notre page
             $('#message').val('').focus(); // Vide la zone de Chat et remet le focus dessus
@@ -80,9 +85,8 @@
 
         // Ajoute un message dans la page
         function insereMessage(pseudo, message) {
-            $('#zone_chat').prepend('<p><strong>' + pseudo + '</strong>' + message + '</p>');
+            $('#zone_chat').prepend('<p><strong>' + pseudo + '</strong>' + " à " + '<em>' + moment().format('HH:mm:ss') + '</em>' + " : " + message + '</p>');
         }
-
     </script>
 </body>
 
