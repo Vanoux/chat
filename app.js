@@ -11,6 +11,8 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+server.listen(process.env.PORT || 8080);
+
 io.sockets.on('connection', function (socket, pseudo) {
 
     //Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe mes autres personnes
@@ -31,4 +33,4 @@ io.sockets.on('connection', function (socket, pseudo) {
 
 });
 
-server.listen(process.env.PORT || 8080);
+
