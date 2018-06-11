@@ -54,8 +54,7 @@
 
     <script>
         // Connexion à socket.io
-        var socket =
-            io('http://192.168.1.101:8080');
+        var socket = io();
 
         // On demande le pseudo, on l'envoie au serveur et on l'affiche dans le titre
         var pseudo = prompt('Quel est votre pseudo ?');
